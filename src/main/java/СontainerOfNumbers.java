@@ -1,20 +1,30 @@
+/**
+ * Класс контейнер для хранения произвольного количества целых чисел
+ */
+
 public class СontainerOfNumbers {
     /**
      * Исходный массив
      */
-    private int[] array = new int[10];
+    private int[] array;
     /**
      * Количество элементов в массиве
      */
-    private int NumbArrElem = 0;
+    private int numbArrElem = 0;
+
+    /**
+     * Метод иницилизации массива
+     */
+    public void initialContainer(){
+         array = new int[10];
+    }
 
     /**
      * Метод расширяет массив для дальнейшего бесконечного добавления элементов
-     *
      * @return - возвращает массив с теми же элементами, но с большим размером
      */
-    private int[] CreateNewArr() {
-        int[] newArray = new int[NumbArrElem + 5];
+    private int[] createNewArr() {
+        int[] newArray = new int[numbArrElem + 5];
         for (int i = 0; i < newArray.length; i++)
             newArray[i] = array[i];
         return newArray;
@@ -22,33 +32,32 @@ public class СontainerOfNumbers {
 
     /**
      * Метод добавляет новый элемент в массив
-     *
      * @param newNumb - новый элемент
      */
-    public void AddNumb(int newNumb) {
-        if (NumbArrElem + 1 > array.length)
-            array = CreateNewArr();
-        array[NumbArrElem] = newNumb;
-        ++NumbArrElem;
+    public void addNumb(int newNumb) {
+        if (numbArrElem + 1 > array.length)
+            array = createNewArr();
+        array[numbArrElem] = newNumb;
+        ++numbArrElem;
     }
 
     /**
      * Метод, который извлекает необходимый элемент из массива
-     *
      * @param index - индекс извлекаемого элемента
      * @return - возвращает необходимый элемент массива
      */
-    public int ExtractNumb(int index) {
+    public int extractNumb(int index) {
+        validateIndex(index);
         return array[index];
     }
 
     /**
      * Метод, который удаляет желаемый элемент из массива
-     *
      * @param index - индекс удаляемого элемента
      * @return - возвращает массив с уже удаленным элементом и в следствии смещением элементов спереди (по необходимости)
      */
-    public int[] RemoveNumb(int index) {
+    public int[] removeNumbInd(int index) {
+        validateIndex(index);
         int[] newArray = new int[array.length];
         if (index == 0) {
             for (int i = 0; i < array.length - 1; i++)
@@ -62,6 +71,29 @@ public class СontainerOfNumbers {
             for (int i = index + 1; i < array.length; i++)
                 newArray[i] = array[i];
         }
-        return newArray;
+        array = newArray;
+        return array;
     }
+
+    /**
+     * Метод нахождения числа и удаления его из массива
+     * @param Numb - удаляемое нами чило
+     * @return - возвращает массив с уже удаленным(-и) элементом(-ами)
+     */
+    public int[] removeNumb(int Numb){
+        for (int i = 0; i < array.length; i++)
+            if (array[i] == Numb)
+                removeNumbInd(i);
+        return array;
+    }
+
+    /**
+     * Бросает исключение, если индекс i выходит за границы списка
+     * @param index индекс, который необходимо проверить
+     */
+    private void validateIndex(int index){
+        if (index < 0 || index >= array.length)
+            throw new ArrayIndexOutOfBoundsException();
+    }
+
 }
