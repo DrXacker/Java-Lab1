@@ -6,18 +6,11 @@ public class СontainerOfNumbers {
     /**
      * Исходный массив
      */
-    private int[] array;
+    private int[] array = new int[10];
     /**
      * Количество элементов в массиве
      */
     private int numbArrElem = 0;
-
-    /**
-     * Метод иницилизации массива
-     */
-    public void initialContainer(){
-         array = new int[10];
-    }
 
     /**
      * Метод расширяет массив для дальнейшего бесконечного добавления элементов
@@ -25,7 +18,7 @@ public class СontainerOfNumbers {
      */
     private int[] createNewArr() {
         int[] newArray = new int[numbArrElem + 5];
-        for (int i = 0; i < newArray.length; i++)
+        for (int i = 0; i < array.length; i++)
             newArray[i] = array[i];
         return newArray;
     }
@@ -69,8 +62,9 @@ public class СontainerOfNumbers {
             for (int i = 0; i < index; i++)
                 newArray[i] = array[i];
             for (int i = index + 1; i < array.length; i++)
-                newArray[i] = array[i];
+                newArray[i-1] = array[i];
         }
+        --numbArrElem;
         array = newArray;
         return array;
     }
@@ -94,6 +88,13 @@ public class СontainerOfNumbers {
     private void validateIndex(int index){
         if (index < 0 || index >= array.length)
             throw new ArrayIndexOutOfBoundsException();
+    }
+
+    /**
+     * @return размер массива
+     */
+    public int size() {
+        return numbArrElem;
     }
 
 }
