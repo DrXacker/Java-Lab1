@@ -1,8 +1,8 @@
 /**
  * Класс контейнер для хранения произвольного количества целых чисел
  */
+public class СontainerOfNumbers{
 
-public class СontainerOfNumbers {
     /**
      * Исходный массив
      */
@@ -18,8 +18,7 @@ public class СontainerOfNumbers {
      */
     private int[] createNewArr() {
         int[] newArray = new int[numbArrElem + 5];
-        for (int i = 0; i < array.length; i++)
-            newArray[i] = array[i];
+        System.arraycopy(array, 0, newArray, 0, array.length);
         return newArray;
     }
 
@@ -47,38 +46,31 @@ public class СontainerOfNumbers {
     /**
      * Метод, который удаляет желаемый элемент из массива
      * @param index - индекс удаляемого элемента
-     * @return - возвращает массив с уже удаленным элементом и в следствии смещением элементов спереди (по необходимости)
      */
-    public int[] removeNumbInd(int index) {
+    public void removeNumbInd(int index) {
         validateIndex(index);
         int[] newArray = new int[array.length];
         if (index == 0) {
-            for (int i = 0; i < array.length - 1; i++)
-                newArray[i] = array[i + 1];
+            if (array.length - 1 >= 0) System.arraycopy(array, 1, newArray, 0, array.length - 1);
         } else if (index == array.length) {
-            for (int i = 0; i < array.length - 1; i++)
-                newArray[i] = array[i];
+            System.arraycopy(array, 0, newArray, 0, array.length - 1);
         } else if (index > 0 && index < array.length) {
-            for (int i = 0; i < index; i++)
-                newArray[i] = array[i];
-            for (int i = index + 1; i < array.length; i++)
-                newArray[i-1] = array[i];
+            System.arraycopy(array, 0, newArray, 0, index);
+            if (array.length - (index + 1) >= 0)
+                System.arraycopy(array, index + 1, newArray, index + 1 - 1, array.length - (index + 1));
         }
         --numbArrElem;
         array = newArray;
-        return array;
     }
 
     /**
      * Метод нахождения числа и удаления его из массива
      * @param Numb - удаляемое нами чило
-     * @return - возвращает массив с уже удаленным(-и) элементом(-ами)
      */
-    public int[] removeNumb(int Numb){
+    public void removeNumb(int Numb){
         for (int i = 0; i < array.length; i++)
             if (array[i] == Numb)
                 removeNumbInd(i);
-        return array;
     }
 
     /**
